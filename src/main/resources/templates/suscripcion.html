@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Suscripciones del Usuario</title>
+    <link rel="stylesheet" th:href="@{/css/estiloSuscripcion.css}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1 th:text="'Suscripciones de ' + ${usuario.nombre}"></h1>
+
+    <!-- Si no hay suscripciones -->
+    <div th:if="${suscripciones.size() == 0}">
+        <p>No hay suscripciones registradas para este usuario.</p>
+    </div>
+
+    <!-- Listado de suscripciones -->
+    <div th:each="suscripcion : ${suscripciones}" class="card">
+
+        <h2 th:text="${suscripcion.plan.nombre}"></h2>
+
+        <p>
+            <strong>Estado:</strong>
+            <span th:text="${suscripcion.estado}"></span>
+        </p>
+
+        <p>
+            <strong>Inicio:</strong>
+            <span th:text="${suscripcion.fechaInicio}"></span>
+        </p>
+
+        <p>
+            <strong>Fin:</strong>
+            <span th:text="${suscripcion.fechaFin}"></span>
+        </p>
+
+        <hr>
+
+        <h3>Facturas Generadas</h3>
+
+        <!-- Tabla de facturas -->
+        <table th:if="${suscripcion.facturas.size() > 0}">
+            <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Monto</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="factura : ${suscripcion.facturas}">
+                <td th:text="${factura.fechaGeneracion}"></td>
+                <td th:text="${factura.monto}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p th:if="${suscripcion.facturas.size() == 0}">
+            No se han generado facturas aún.
+        </p>
+
+    </div>
+
+    <br>
+
+    <!-- Botón volver -->
+    <a th:href="@{/usuarios/nuevo}">
+        <button>Registrar nuevo usuario</button>
+    </a>
+
+</div>
+
+</body>
+</html>

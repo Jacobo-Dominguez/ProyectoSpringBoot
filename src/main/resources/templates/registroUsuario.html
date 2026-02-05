@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro Usuario SaaS</title>
+    <link rel="stylesheet" th:href="@{/css/estiloSaaS.css}">
+</head>
+<body>
+
+<div class="card">
+    <h1>Registro de Usuario</h1>
+
+    <form th:action="@{/usuarios/guardar}" th:object="${usuario}" method="post">
+
+        <label>Nombre:</label>
+        <input type="text" th:field="*{nombre}" required>
+
+        <label>Email:</label>
+        <input type="email" th:field="*{email}" required>
+
+        <label>Selecciona Plan:</label>
+        <select name="planId" required>
+            <option value="" disabled selected>-- Selecciona un plan --</option>
+            <option th:each="plan : ${planes}"
+                    th:value="${plan.id}"
+                    th:text="${plan.nombre + ' ($' + plan.precio + ')'}">
+            </option>
+        </select>
+
+        <button type="submit">Registrar Usuario</button>
+
+    </form>
+</div>
+
+</body>
+</html>

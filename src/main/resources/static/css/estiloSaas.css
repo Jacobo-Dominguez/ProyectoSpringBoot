@@ -1,0 +1,51 @@
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
+    margin: 0;
+    padding: 0;
+}
+
+.card {
+    max-width: 450px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+}
+
+h1 {
+    text-align: center;
+    color: #ff7e5f;
+    margin-bottom: 25px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input, form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #ff7e5f;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+form button:hover {
+    background-color: #e0643b;
+}
