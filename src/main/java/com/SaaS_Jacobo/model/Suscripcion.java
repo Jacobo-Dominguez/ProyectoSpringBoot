@@ -1,75 +1,50 @@
 package com.SaaS_Jacobo.model;
 
+import com.SaaS_Jacobo.enums.EstadoSuscripcion;
 import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.envers.Audited;
+
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Audited
 public class Suscripcion {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Usuario usuario;
 
     @ManyToOne
     private Plan plan;
 
-    private LocalDate fechaInicio;
-    private LocalDate fechaFin;
-
     @Enumerated(EnumType.STRING)
     private EstadoSuscripcion estado;
 
-    @OneToMany(mappedBy = "suscripcion", fetch = FetchType.LAZY)
-    private List<Factura> facturas = new ArrayList<>();
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
+    private LocalDate fechaProximaRenovacion;
 
-    public Suscripcion() {}
+    @OneToMany(mappedBy = "suscripcion", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<Factura> facturas;
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public Plan getPlan() {
-        return plan;
-    }
-
-    public void setPlan(Plan plan) {
-        this.plan = plan;
-    }
-
-    public LocalDate getFechaInicio() {
-        return fechaInicio;
-    }
-
-    public void setFechaInicio(LocalDate fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
-
-    public LocalDate getFechaFin() {
-        return fechaFin;
-    }
-
-    public void setFechaFin(LocalDate fechaFin) {
-        this.fechaFin = fechaFin;
-    }
-
-    public EstadoSuscripcion getEstado() {
-        return estado;
-    }
-
-    public void setEstado(EstadoSuscripcion estado) {
-        this.estado = estado;
-    }
-
-    public List<Factura> getFacturas() {
-        return facturas;
+    //Calcula los días restantes hasta la próxima renovación
+    public long obtenerDiasRestantes() {
+        if (fechaProximaRenovacion == null) {
+            return 0;
+        }
+        return ChronoUnit.DAYS.between(LocalDate.now(), fechaProximaRenovacion);
     }
 }

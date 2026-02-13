@@ -1,6 +1,5 @@
 package com.SaaS_Jacobo.model;
 
-import com.SaaS_Jacobo.enums.TipoPlan;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.envers.Audited;
@@ -11,15 +10,11 @@ import org.hibernate.envers.Audited;
 @AllArgsConstructor
 @Builder
 @Audited
-public class Plan {
+public class Pais {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
-
-    @Enumerated(EnumType.STRING)
-    private TipoPlan tipo;
-    private String descripcion;
-    private Double precio;
+    private String codigo;
+    private Double tasaImpuesto;
 }
-

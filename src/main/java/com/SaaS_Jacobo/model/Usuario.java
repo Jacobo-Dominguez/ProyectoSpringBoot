@@ -2,42 +2,51 @@ package com.SaaS_Jacobo.model;
 
 
 import jakarta.persistence.*;
-import java.util.ArrayList;
+import lombok.*;
+import org.hibernate.envers.Audited;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Audited
+@EntityListeners(AuditingEntityListener.class)
 public class Usuario {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nombre;
     private String email;
+    private String password;
 
-    @OneToMany(mappedBy = "usuario")
-    private List<Suscripcion> suscripciones = new ArrayList<>();
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Perfil perfil;
 
-    public Usuario() {}
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<Suscripcion> suscripciones;
 
-    public Long getId() {
-        return id;
-    }
+    @ManyToOne
+    private Plan planActual;
 
-    public String getNombre() {
-        return nombre;
-    }
+    private String rol; // "ROLE_USER" o "ROLE_ADMIN"
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime fechaCreacion;
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    @LastModifiedDate
+    private LocalDateTime fechaModificacion;
 }
 
