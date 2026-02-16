@@ -93,3 +93,36 @@ Un usuario estándar para probar la visualización de facturas y cambio de plane
 - **Prorrateo**: Al cambiar de plan, el sistema calcula la diferencia de precio y genera una factura de ajuste detallada.
 - **Auditoría Envers**: Los administradores pueden ver quién cambió qué y cuándo desde el panel de auditoría.
 - **Persistencia Robusta**: Configurado para mantener los datos entre reinicios del servidor.
+
+---
+
+## 📊 Diagrama Entidad-Relación (Normalizado)
+
+```mermaid
+erDiagram
+    Usuario ||--|| Perfil : tiene
+    Usuario ||--o{ Suscripcion : posee
+    Usuario }|--|| Plan : plan_actual
+    Suscripcion }|--|| Plan : tipo_plan
+    Suscripcion ||--o{ Factura : genera
+    Perfil }|--|| Pais : pertenece
+    Factura }|--o| Pago : registrada_con
+```
+
+---
+
+## ✅ Reporte de Pruebas (JUnit & Manuales)
+
+Se han realizado pruebas exhaustivas sobre la lógica crítica del negocio para asegurar la integridad de los datos y los cálculos.
+
+| Caso de Prueba | Entrada | Resultado Esperado | Resultado Real |
+| :--- | :--- | :--- | :--- |
+| **Cálculo IVA España** | Monto: 10€, Tasa: 21% | Impuesto: 2.10€ | ✅ Correcto |
+| **Cálculo IVA USA** | Monto: 100€, Tasa: 0% | Impuesto: 0.00€ | ✅ Correcto |
+| **Prorrateo Mes Completo** | Diferencia: 30€, Días: 30 | Prorrateo: 30.00€ | ✅ Correcto |
+| **Prorrateo Medio Mes** | Diferencia: 20€, Días: 15 | Prorrateo: 10.00€ | ✅ Correcto |
+| **Registro Único Email** | Email duplicado | Redirección con error | ✅ Correcto |
+| **Persistencia de Datos** | Reinicio Servidor | Datos mantenidos | ✅ Correcto |
+| **Recursión de Memoria** | Login Usuario | Sin StackOverflowError | ✅ Correcto |
+
+---
