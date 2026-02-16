@@ -45,6 +45,11 @@
     <div class="container centered-container">
         <h2 class="mb-4 text-center" th:text="'Suscripciones de ' + ${usuario.nombre}"></h2>
 
+        <div th:if="${param.success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            ¡Plan actualizado correctamente! Se ha generado la factura correspondiente.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
         <div th:if="${suscripciones.size() == 0}" class="card text-center">
             <p>No hay suscripciones registradas.</p>
             <a th:href="@{/usuarios/nuevo}" class="btn btn-primary">Registrar Usuario</a>
